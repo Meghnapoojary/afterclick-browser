@@ -1,165 +1,207 @@
 # AFTERCLICK
 
-**Browse. Understand. Act. Verify.**  
-*A browser that turns intentions into verified outcomes.*
+<p align="center">
+  <img src="electron/assets/mascot-bot.png" alt="AFTERCLICK robot mascot" width="112" />
+</p>
 
-[![Windows installer workflow](https://github.com/Meghnapoojary/afterclick-browser/actions/workflows/windows-installer.yml/badge.svg?branch=main)](https://github.com/Meghnapoojary/afterclick-browser/actions/workflows/windows-installer.yml)
+<p align="center">
+  <strong>Browse. Understand. Act. Verify.</strong><br/>
+  <em>A browser that turns intentions into verified outcomes.</em>
+</p>
 
-AFTERCLICK is an Electron desktop-browser MVP that brings normal browsing and a guided task workflow into one interface. A single command bar routes website addresses, web searches, page-understanding requests and the currently supported appointment-booking demonstration. The integrated activity panel shows the agent's plan, approvals, actions and evidence.
+<p align="center">
+  <a href="https://github.com/Meghnapoojary/afterclick-browser/actions/workflows/windows-installer.yml">
+    <img src="https://github.com/Meghnapoojary/afterclick-browser/actions/workflows/windows-installer.yml/badge.svg?branch=main" alt="Windows installer workflow" />
+  </a>
+  <img src="https://img.shields.io/badge/platform-Windows%20x64-6478d0" alt="Windows x64" />
+  <img src="https://img.shields.io/badge/stage-hackathon%20MVP-f08b74" alt="Hackathon MVP" />
+  <img src="https://img.shields.io/badge/license-not%20specified-lightgrey" alt="License not specified" />
+</p>
 
-> **MVP notice:** Appointment providers, booking history and checkout are controlled local demo fixtures. No real appointment is created and no real payment is processed. The appointment planner is deterministic in this version; AFTERCLICK does not yet connect to an external LLM.
+AFTERCLICK is a desktop browser built with **Electron, Chromium, React and TypeScript**. It combines everyday browsing with a guided task workspace: give it a goal, inspect its plan, approve consequential actions, and see evidence of the result.
 
-## What the MVP demonstrates
+The idea behind AFTERCLICK is simple:
 
-| Capability | Demonstration |
+> **Execution is not completion. Verification is.**
+
+## Why AFTERCLICK?
+
+Traditional browser automation often treats a successful click or a returned response as proof that a task is complete. But a website can process an action and lose the confirmation response—or fail before processing it.
+
+AFTERCLICK's MVP demonstrates a safer pattern: record the intended outcome, execute only after approval, independently check the result, and avoid blindly repeating an action when its status is unknown.
+
+## What you can try in this MVP
+
+| Experience | What currently works |
 | --- | --- |
-| Desktop browser | Electron + Chromium `WebContentsView`, multiple tabs, address bar, navigation and ordinary website browsing |
-| One command surface | The home-page command field and browser omnibox share the same dispatcher |
-| AFTERCLICK Search | General queries are presented in a branded results page with source links and snippets |
-| Page understanding | Extracts visible page text and produces a short extractive summary |
-| Goal Contract | Captures the requested outcome, preconditions, constraints and expected postconditions for the supported task |
-| Multi-site research | Opens three controlled provider pages and reads their appointment details |
-| Comparison | Filters appointment options against the time window and price limit, then recommends an eligible option |
-| Human approval | Requires the user to choose a provider, enter the appointment name and approve the demo checkout before submitting |
-| Outcome assurance | Checks an independent local booking ledger instead of trusting a browser success message |
-| Recovery | Demonstrates both a committed booking with a lost response and a request dropped before commit |
-| Evidence receipt | Shows the booking details, simulated payment state, booking reference, history result and action journal; the acknowledgement is printable / Save as PDF |
+| **Desktop browser** | Chromium-based website rendering, tabs, address bar, navigation and ordinary browsing |
+| **One command bar** | The home-page command field and browser omnibox use the same command dispatcher |
+| **AFTERCLICK Search** | Branded search results with source links and snippets |
+| **Page understanding** | Extracts visible page text and creates a short extractive summary |
+| **Appointment research** | Opens three controlled provider pages and compares fees, time slots, ratings and areas |
+| **Goal Contract** | Captures the supported task's intended outcome, constraints and expected postconditions |
+| **Human approval** | Requires provider selection, patient name and explicit demo-checkout approval before booking |
+| **Outcome assurance** | Checks a separate local booking ledger instead of trusting the browser's success message |
+| **Recovery** | Demonstrates a committed booking with a lost response, a request dropped before commit, and an unavailable history source |
+| **Evidence receipt** | Shows appointment details, simulated payment reference, booking reference, verification result and action history; can be printed or saved as PDF |
 
-## The key demonstration: execution is not completion
+## The signature demo: a lost confirmation, recovered safely
 
-The Carewell test provider intentionally creates the appointment record and then drops the confirmation response. AFTERCLICK displays the connection interruption, pauses the workflow, checks the independent booking ledger, finds exactly one matching record and reports `LOST · RECOVERED`. It does not submit the booking a second time.
+The appointment workflow uses controlled local test providers. It is designed to show why AFTERCLICK verifies outcomes instead of simply retrying.
 
-The Northstar test provider demonstrates the other branch: its first request is dropped before a booking is committed. AFTERCLICK confirms an authoritative zero-result history check, marks the task `NOT_BOOKED`, and requires a fresh user approval and demo payment authorization before a new attempt.
+### 1. Request submitted — confirmation lost
 
-If the history source itself is unavailable or inconclusive, the task remains `UNCERTAIN`; the follow-up action is read-only and does not resubmit the booking.
+The Carewell test provider creates the appointment record, but deliberately drops the confirmation response. AFTERCLICK shows the signal interruption and pauses. It then checks the independent booking ledger, finds one matching record and reports **LOST · RECOVERED**.
 
-## Project architecture
+**It does not submit the booking again.**
 
-- **Electron main process:** owns the desktop window, Chromium `WebContentsView` tabs, browser navigation, local demo server, local provider fixtures, simulated payment records, booking ledger and workflow orchestration.
-- **React + TypeScript renderer:** owns the browser chrome, shared command dispatcher, agent activity panel, provider comparison, demo checkout and printable receipt.
-- **Preload bridges:** expose a narrow set of named browser and agent operations through `contextBridge`. Remote websites do not receive Node.js integration.
-- **Vite:** builds the renderer into `dist/`.
-- **Electron Builder:** packages the desktop app and creates a Windows x64 NSIS installer.
+### 2. Request dropped before the booking is created
 
-See [`docs/architecture.md`](docs/architecture.md) for the process model and task lifecycle, [`docs/GITHUB_SETUP.md`](docs/GITHUB_SETUP.md) for the first GitHub push, and [`docs/INSTALLER.md`](docs/INSTALLER.md) for Windows packaging.
+The Northstar test provider drops the first request before committing an appointment. AFTERCLICK checks the authoritative history, confirms that no matching booking exists, marks the outcome **NOT BOOKED**, and asks for fresh approval before a new attempt.
 
-## Quick start: run from source
+### 3. Booking history cannot be checked
+
+When the history source is unavailable or inconclusive, AFTERCLICK marks the outcome **UNCERTAIN**. The next history check is read-only: no second booking request is sent while the outcome remains uncertain.
+
+## Try the demo
+
+1. Start AFTERCLICK and use the single command field on the new-tab page.
+2. Try a normal search, for example: `best budget laptops`.
+3. Then enter:
+
+   `Find an appointment tomorrow between 4 PM and 6 PM, under ₹500. Compare three providers and recommend the best available option.`
+
+4. Review the provider comparison and choose an option.
+5. Enter the name for the appointment and choose a demo payment method.
+6. Read the checkout notice and explicitly approve the simulated payment and booking.
+7. For **Carewell**, watch the confirmation signal get lost, then watch AFTERCLICK check the booking ledger and recover the confirmed result.
+8. Open the receipt to review the patient name, provider, appointment date and time, clinic area, booking reference, simulated payment reference and verification evidence. Use **Print / Save PDF** for a printable acknowledgement.
+9. Start a fresh task and choose **Northstar** to test the request-dropped-before-commit path.
+10. Use **Test temporary history outage (demo)** to see the **UNCERTAIN** state and the safe, read-only recheck.
+
+## Architecture
+
+```mermaid
+flowchart LR
+    U[User command] --> B[Electron browser shell]
+    B --> R[React + TypeScript UI]
+    R --> P[Task plan and Goal Contract]
+    P --> A[Approved browser action]
+    A --> V[Independent outcome verification]
+    V -->|Confirmed| E[Evidence receipt]
+    V -->|Not confirmed| H[Safe recovery / human approval]
+    V -->|Inconclusive| Q[UNCERTAIN - no retry]
+    H --> V
+```
+
+| Layer | Responsibility |
+| --- | --- |
+| **Electron main process** | Desktop window, Chromium `WebContentsView` tabs, navigation, local demo server, provider fixtures, simulated payment records, booking ledger and workflow orchestration |
+| **React + TypeScript renderer** | Browser chrome, shared command bar, agent activity panel, provider comparison, demo checkout and printable receipt |
+| **Preload bridges** | Expose named browser and agent operations through `contextBridge`; remote websites do not receive Node.js integration |
+| **Vite** | Builds the renderer into `dist/` |
+| **Electron Builder** | Packages the desktop application and creates a Windows x64 NSIS installer |
+
+More detail: [Architecture](docs/architecture.md) · [Installer guide](docs/INSTALLER.md) · [GitHub setup](docs/GITHUB_SETUP.md)
+
+## Run from source
 
 ### Requirements
 
-- Windows 10/11, macOS or Linux on an Electron-supported desktop environment
+- Windows 10/11 (x64) for the supplied installer workflow
 - Node.js 22.12 or newer
 - npm 10 or newer
 
-### Install and start
+### Install and launch
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-On Windows, `start.bat` can also install dependencies if needed and start the development application.
+On Windows, `start.bat` is also provided as a convenience launcher.
 
-### Production renderer build
+### Check and build
 
 ```bash
+npm run check
 npm run build
-npm start
 ```
 
-## Windows installer
+## Build the Windows installer
 
-AFTERCLICK uses Electron Builder's NSIS target. The installer provides a setup wizard, lets the user choose an installation directory, and can create Start Menu and desktop shortcuts.
+AFTERCLICK uses Electron Builder with the NSIS installer target. The setup wizard supports choosing an installation directory and creating Start Menu and desktop shortcuts.
 
-On a Windows x64 machine, either double-click `build-installer.bat`, or run:
+On Windows x64, double-click `build-installer.bat`, or run:
 
 ```powershell
-npm install
+npm ci
 npm run dist:win
 ```
 
-The installer is generated in `release/` with a name similar to:
+The installer is written to `release/AFTERCLICK-Setup-0.6.2-x64.exe`.
 
-```text
-AFTERCLICK-Setup-0.6.2-x64.exe
-```
-
-Other packaging commands:
+Other packaging options:
 
 ```powershell
-# Create an unpacked Windows app directory for troubleshooting
+# Unpacked application directory for troubleshooting
 npm run pack:win
 
-# Create a portable executable rather than an install wizard
+# Portable executable (no install wizard)
 npm run dist:win:portable
 ```
 
-Read [`docs/INSTALLER.md`](docs/INSTALLER.md) for local packaging, GitHub Actions and release-tag instructions.
+## Automated Windows builds and releases
 
-### Downloading a built installer
+The GitHub Actions workflow builds the Windows installer when code is pushed to `main`, when the workflow is started manually, or when a version tag is pushed.
 
-Pushes to `main` and manual workflow runs build a Windows installer and upload it as a GitHub Actions artifact. Pushing a version tag such as `v0.6.2` also creates a GitHub Release and attaches the `.exe` installer. The release is produced by `.github/workflows/windows-installer.yml`.
+- **Push to `main`:** builds the installer and uploads it as a workflow artifact (retained for 21 days).
+- **Push a version tag:** builds the installer, then creates a GitHub Release and attaches the `.exe`.
 
-The installer is currently **unsigned** because no Authenticode certificate is configured. This is acceptable for a hackathon MVP, but a public production release should be signed and should publish checksums.
+Workflow: [Build Windows installer](.github/workflows/windows-installer.yml) · [View Actions runs](https://github.com/Meghnapoojary/afterclick-browser/actions)
 
-## Demo walkthrough
+To publish a new version, update the package version, commit and push to `main`, then push a matching tag (for example, `v0.6.2`). The installer release is created by the workflow; no personal access token is required in the workflow for Electron Builder publishing.
 
-1. Start AFTERCLICK. The browser opens a clean new-tab page with one command field.
-2. Enter a normal query such as `best budget laptops` to use AFTERCLICK Search, or enter a website URL to navigate.
-3. Enter: `Find an appointment tomorrow between 4 PM and 6 PM, under ₹500. Compare three providers and recommend the best available option.`
-4. AFTERCLICK opens three controlled provider pages and compares their fees, slots, ratings and areas.
-5. Select a provider and continue to the demo checkout. Enter the name for the appointment and select `UPI demo` or `Card demo`.
-6. Read the notice explaining that checkout is a simulation, then explicitly authorize the demo payment and booking.
-7. For Carewell, observe the request being submitted, the confirmation response being lost, and the independent booking-history check. The provider ledger confirms one booking, so AFTERCLICK reports `LOST · RECOVERED` without resubmitting.
-8. Open the receipt to inspect the booked-under name, provider, date, time, area, booking reference, simulated payment reference and verification result. Use **Print / Save PDF** to print the acknowledgement or save it as a PDF.
-9. Start a fresh task and select Northstar to test the pre-commit failure and explicitly approved retry path.
-10. Use **Test temporary history outage (demo)** to test `UNCERTAIN`. The recheck is read-only and does not submit another booking.
+Releases: [AFTERCLICK GitHub Releases](https://github.com/Meghnapoojary/afterclick-browser/releases)
 
-## Repository structure
+> **Installer note:** The Windows installer is currently unsigned because no Authenticode certificate is configured. Windows SmartScreen may show an unknown-publisher warning. A production release should be code-signed and should publish checksums.
+
+## Scope and honest limitations
+
+This is a **hackathon MVP**, not a production-ready browser or universal web agent.
+
+- Appointment providers, booking history and checkout are controlled local demo fixtures. **No real clinic appointment is created and no real payment is processed.**
+- Demo payment methods do not collect card numbers, UPI PINs or bank credentials.
+- Appointment planning and provider ranking are deterministic in this version; there is no external LLM integration yet.
+- Search presents result links and snippets; it does not yet generate an LLM-synthesised research answer.
+- Page understanding currently uses visible page text and extractive summarisation.
+- Task execution is limited to the supported appointment workflow. Unsupported autonomous tasks are not claimed as completed.
+- Booking and simulated payment records are held in memory and reset when the local demo server restarts.
+- A production system would need persistent storage, real provider adapters, compliant payment integration, stronger permission mediation, stricter navigation/download policies, code signing and a security review.
+
+## Repository layout
 
 ```text
 .
-├── .github/
-│   └── workflows/
-│       └── windows-installer.yml  # CI build and tagged GitHub Release
-├── docs/
-│   ├── architecture.md            # Electron/browser/agent architecture
-│   ├── GITHUB_SETUP.md            # First repository push instructions
-│   └── INSTALLER.md               # Windows packaging instructions
+├── .github/workflows/       # Windows installer CI and release workflow
+├── docs/                    # Architecture, installer and GitHub guides
 ├── electron/
-│   ├── assets/                    # Mascots and application icon
-│   ├── main.cjs                   # Browser, local server and workflow orchestration
-│   ├── preload.cjs                # Narrow renderer bridge
-│   └── view-preload.cjs           # Start-page-only command bridge
-├── scripts/
-│   └── dev.cjs                    # Development server and Electron lifecycle
+│   ├── assets/              # App icon and mascot artwork
+│   ├── main.cjs             # Browser, local server and task orchestration
+│   ├── preload.cjs          # Narrow renderer bridge
+│   └── view-preload.cjs     # Start-page command bridge
+├── scripts/                 # Development server / Electron lifecycle
 ├── src/
-│   ├── App.tsx                    # Browser UI, agent activity, checkout and receipt
-│   ├── global.d.ts                # Renderer API/data types
-│   ├── main.tsx                   # React entry point
-│   └── styles.css                 # AFTERCLICK UI styles
-├── build-installer.bat            # One-click local Windows installer build
+│   ├── App.tsx              # Browser UI, agent, checkout and receipt
+│   ├── global.d.ts          # Renderer API types
+│   ├── main.tsx             # React entry point
+│   └── styles.css           # Application styles
+├── build-installer.bat
 ├── start.bat
-├── CHANGELOG.md
-├── index.html
-├── package.json                  # Electron, Vite and NSIS build configuration
-├── tsconfig.json
-└── vite.config.mts
+├── package.json
+└── README.md
 ```
-
-## Security and scope boundaries
-
-- External pages run with Node integration disabled, context isolation enabled and sandboxing enabled.
-- The renderer receives named operations through `contextBridge`; raw `ipcRenderer` and Node APIs are not exposed to the React UI.
-- The start-page command bridge is restricted to the local AFTERCLICK origin.
-- Demo providers and the booking/payment ledgers are local test fixtures. No real clinic booking is made and no real money is charged.
-- Demo payment methods do not collect card details, UPI PINs or bank credentials.
-- Task execution is currently limited to the controlled appointment workflow. Unsupported autonomous tasks are not claimed as completed.
-- Appointment planning and provider ranking are deterministic; this MVP has no external LLM integration.
-- Search retrieves and presents result links/snippets. It does not yet synthesize a research answer with an LLM.
-- Booking and demo payment records are in memory and reset when the local demo server restarts.
-- This is a hackathon MVP, not a hardened browser product. Production work would require permission mediation, stricter navigation/download policies, persistent storage, real provider adapters, a compliant payment integration, signing and security review.
 
 ## Current version
 
-**0.6.2** — release pipeline fix on top of the 0.6.1 repository and Windows packaging setup. See [`CHANGELOG.md`](CHANGELOG.md).
+**0.6.2** — fixes the Windows release pipeline so Electron Builder only packages the installer and GitHub Actions handles release publication. See [CHANGELOG.md](CHANGELOG.md).
