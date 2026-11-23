@@ -3,6 +3,8 @@
 **Browse. Understand. Act. Verify.**  
 *A browser that turns intentions into verified outcomes.*
 
+[![Windows installer workflow](https://github.com/Meghnapoojary/afterclick-browser/actions/workflows/windows-installer.yml/badge.svg?branch=main)](https://github.com/Meghnapoojary/afterclick-browser/actions/workflows/windows-installer.yml)
+
 AFTERCLICK is an Electron desktop-browser MVP that brings normal browsing and a guided task workflow into one interface. A single command bar routes website addresses, web searches, page-understanding requests and the currently supported appointment-booking demonstration. The integrated activity panel shows the agent's plan, approvals, actions and evidence.
 
 > **MVP notice:** Appointment providers, booking history and checkout are controlled local demo fixtures. No real appointment is created and no real payment is processed. The appointment planner is deterministic in this version; AFTERCLICK does not yet connect to an external LLM.
@@ -96,7 +98,7 @@ Read [`docs/INSTALLER.md`](docs/INSTALLER.md) for local packaging, GitHub Action
 
 ### Downloading a built installer
 
-After the repository is published, pushes to `main` and manual workflow runs build a Windows installer and upload it as a GitHub Actions artifact. Pushing a version tag such as `v0.6.2` also creates a GitHub Release and attaches the `.exe` installer. The release is produced by `.github/workflows/windows-installer.yml`.
+Pushes to `main` and manual workflow runs build a Windows installer and upload it as a GitHub Actions artifact. Pushing a version tag such as `v0.6.2` also creates a GitHub Release and attaches the `.exe` installer. The release is produced by `.github/workflows/windows-installer.yml`.
 
 The installer is currently **unsigned** because no Authenticode certificate is configured. This is acceptable for a hackathon MVP, but a public production release should be signed and should publish checksums.
 
