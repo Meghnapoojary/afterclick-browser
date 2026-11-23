@@ -79,7 +79,7 @@ npm run dist:win
 The installer is generated in `release/` with a name similar to:
 
 ```text
-AFTERCLICK-Setup-0.6.1-x64.exe
+AFTERCLICK-Setup-0.6.2-x64.exe
 ```
 
 Other packaging commands:
@@ -96,7 +96,7 @@ Read [`docs/INSTALLER.md`](docs/INSTALLER.md) for local packaging, GitHub Action
 
 ### Downloading a built installer
 
-After the repository is published, pushes to `main` and manual workflow runs build a Windows installer and upload it as a GitHub Actions artifact. Pushing a version tag such as `v0.6.1` also creates a GitHub Release and attaches the `.exe` installer. The release is produced by `.github/workflows/windows-installer.yml`.
+After the repository is published, pushes to `main` and manual workflow runs build a Windows installer and upload it as a GitHub Actions artifact. Pushing a version tag such as `v0.6.2` also creates a GitHub Release and attaches the `.exe` installer. The release is produced by `.github/workflows/windows-installer.yml`.
 
 The installer is currently **unsigned** because no Authenticode certificate is configured. This is acceptable for a hackathon MVP, but a public production release should be signed and should publish checksums.
 
@@ -160,4 +160,4 @@ The installer is currently **unsigned** because no Authenticode certificate is c
 
 ## Current version
 
-**0.6.1** — packaging and repository preparation on top of the 0.6.0 visual recovery and printable acknowledgement build. See [`CHANGELOG.md`](CHANGELOG.md).
+**0.6.2** — release pipeline fix on top of the 0.6.1 repository and Windows packaging setup. See [`CHANGELOG.md`](CHANGELOG.md).
