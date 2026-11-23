@@ -1,6 +1,6 @@
 {
   "name": "afterclick-desktop",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "private": true,
   "description": "AFTERCLICK \u2014 a desktop browser MVP for browsing, guided tasks and evidence-backed outcome verification.",
   "main": "electron/main.cjs",
@@ -9,9 +9,9 @@
     "build": "tsc --noEmit && vite build",
     "start": "electron .",
     "check": "tsc --noEmit --pretty false",
-    "pack:win": "npm run build && electron-builder --win --x64 --dir",
-    "dist:win": "npm run build && electron-builder --win nsis --x64",
-    "dist:win:portable": "npm run build && electron-builder --win portable --x64"
+    "pack:win": "npm run build && electron-builder --win --x64 --dir --publish never",
+    "dist:win": "npm run build && electron-builder --win nsis --x64 --publish never",
+    "dist:win:portable": "npm run build && electron-builder --win portable --x64 --publish never"
   },
   "dependencies": {
     "lucide-react": "1.78.0",
