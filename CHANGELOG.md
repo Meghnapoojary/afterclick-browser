@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.2 — Release pipeline fix
+
+- Prevented Electron Builder from attempting an implicit GitHub publish during installer packaging; GitHub Actions now owns release publication.
+- Switched the Windows workflow to `npm ci` for lockfile-based dependency installation.
+
+
 ## 0.6.1 — Repository and Windows packaging
 
 - Added Electron Builder configuration for a Windows x64 NSIS installer.
