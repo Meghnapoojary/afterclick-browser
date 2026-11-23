@@ -15,7 +15,12 @@
   </a>
   <img src="https://img.shields.io/badge/platform-Windows%20x64-6478d0" alt="Windows x64" />
   <img src="https://img.shields.io/badge/stage-hackathon%20MVP-f08b74" alt="Hackathon MVP" />
-  <img src="https://img.shields.io/badge/license-not%20specified-lightgrey" alt="License not specified" />
+</p>
+
+<p align="center">
+  <a href="https://github.com/Meghnapoojary/afterclick-browser/releases/download/v0.6.2/AFTERCLICK-Setup-0.6.2-x64.exe"><strong>↓ Download AFTERCLICK for Windows</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/Meghnapoojary/afterclick-browser/releases">All releases</a>
 </p>
 
 AFTERCLICK is a desktop browser built with **Electron, Chromium, React and TypeScript**. It combines everyday browsing with a guided task workspace: give it a goal, inspect its plan, approve consequential actions, and see evidence of the result.
